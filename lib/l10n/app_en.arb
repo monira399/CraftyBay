@@ -1,6 +1,7 @@
 {
 
       "hello": "Hello",
-      "changeLanguage": "Change Language"
+      "changeLanguage": "Change Language",
+      "changeTheme": "Change Theme"
 
 }
