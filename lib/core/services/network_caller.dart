@@ -50,7 +50,7 @@ class NetworkCaller{
           isSuccess: false,
           responseCode: statusCode,
           responseData: decodedData,
-
+          errorMassage: decodedData['msg']
 
         );
       }
@@ -108,7 +108,7 @@ class NetworkCaller{
           isSuccess: false,
           responseCode: statusCode,
           responseData: decodedData,
-          errorMassage: decodedData['mes'], // TODO: propose a solution to make this component independent
+          errorMassage: decodedData['msgN'], // TODO: propose a solution to make this component independent
 
         );
       }

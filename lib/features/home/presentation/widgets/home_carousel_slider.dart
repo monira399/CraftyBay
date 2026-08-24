@@ -2,8 +2,12 @@ import 'package:craftybay/app/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../data/models/slider_model.dart';
+
 class HomeCarouselSlider extends StatefulWidget {
-  const HomeCarouselSlider({super.key});
+  const HomeCarouselSlider({super.key, required this.sliders});
+
+  final List<SliderModel> sliders;
 
   @override
   State<HomeCarouselSlider> createState() => _HomeCarouselSliderState();
@@ -21,7 +25,7 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
           onPageChanged: (index, reason) {
             _selectedIndex.value = index;
           }),
-          items: [1,2,3,4,5].map((i) {
+          items: widget.sliders.map((slider) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -29,10 +33,12 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                         color: Colors.amber,
-                      borderRadius: BorderRadius.circular(8)
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(image: NetworkImage(slider.photoUrl),
+                      fit: BoxFit.cover)
                     ),
                     alignment: Alignment.center,
-                    child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+
                 );
               },
             );

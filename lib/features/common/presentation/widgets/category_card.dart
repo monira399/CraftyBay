@@ -2,17 +2,21 @@ import 'package:craftybay/features/product/presentation/screens/product_list_by_
 import 'package:flutter/material.dart';
 
 import '../../../../app/app_colors.dart';
+import '../../../category/data/models/category_model.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
-    super.key,
+    super.key, required this.categoryModel,
   });
+
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, ProductListByCategory.name);
+        Navigator.pushNamed(context, ProductListByCategory.name,
+        arguments: categoryModel);
       },
       child: Column(
         children: [
@@ -21,14 +25,17 @@ class CategoryCard extends StatelessWidget {
             color: AppColors.themeColor.withAlpha(30),
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Icon(Icons.computer,size: 28,
-                  color: AppColors.themeColor),
+              child: Image.network(categoryModel.icon, height: 30, width: 30,
+              errorBuilder:(_,_,_) => Icon(Icons.error, size: 28, color: Colors.grey),)
             ),
           ),
-          Text('Computer', style:TextStyle(
+          Text(categoryModel.title,
+              maxLines:1,
+              textAlign: TextAlign.center,
+              style:TextStyle(
               fontWeight: FontWeight.w500,
               color: AppColors.themeColor,
-              letterSpacing:3
+                overflow: TextOverflow.ellipsis
           ))
         ],
       ),

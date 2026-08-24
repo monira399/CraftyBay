@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductCarouselSlider extends StatefulWidget {
-  const ProductCarouselSlider({super.key});
+  const ProductCarouselSlider({super.key, required this.imageUrls});
+
+  final List<String> imageUrls;
 
   @override
   State<ProductCarouselSlider> createState() => _ProductCarouselSliderState();
@@ -17,55 +19,60 @@ class _ProductCarouselSliderState extends State<ProductCarouselSlider> {
     return Stack(
       children: [
         CarouselSlider(
-          options: CarouselOptions(height: 240.0, viewportFraction: 1,
-              onPageChanged: (index, reason) {
-                _selectedIndex.value = index;
-              }),
-          items: [1,2,3,4,5].map((i) {
+          options: CarouselOptions(
+            height: 240.0,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              _selectedIndex.value = index;
+            },
+          ),
+          items: widget.imageUrls.map((image) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withAlpha(50),
-                        borderRadius: BorderRadius.circular(8)
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.grey.withAlpha(50),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: NetworkImage(image),
+                      fit: BoxFit.cover,
                     ),
-                    alignment: Alignment.center,
-                    child: Text('Image $i', style: TextStyle(fontSize: 16.0),)
+                  ),
+
                 );
               },
             );
           }).toList(),
         ),
-        SizedBox(height: 10,),
+        SizedBox(height: 10),
         Positioned(
           bottom: 8,
           right: 0,
           left: 0,
-          top: 0,
           child: ValueListenableBuilder(
-              valueListenable: _selectedIndex,
-              builder: (context, selectedIndex, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for(int i=0; i<5; i++)
-                      Container(
-                        width: 10,
-                        height: 10,
-                        margin: EdgeInsets.only(right:5),
-                        decoration: BoxDecoration(
-                            color: i == selectedIndex ? AppColors.themeColor : null,
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(16)
-                        ),
-                      )
-                  ],
-                );
-              }
+            valueListenable: _selectedIndex,
+            builder: (context, selectedIndex, _) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < widget.imageUrls.length; i++)
+                    Container(
+                      width: 10,
+                      height: 10,
+                      margin: EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                        color: i == selectedIndex ? AppColors.themeColor : null,
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
-        )
-
+        ),
       ],
     );
   }

@@ -1,3 +1,6 @@
+import 'package:craftybay/app/app.dart';
+import 'package:craftybay/features/auth/presentation/providers/auth_controllers.dart';
+import 'package:craftybay/features/auth/presentation/screens/sign_In_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainNavProvider extends ChangeNotifier {
@@ -5,7 +8,7 @@ class MainNavProvider extends ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
 
-  void changeItem(int index) {
+ Future<void>  changeItem(int index) async{
     if(_selectedIndex == index) return;
 
     _selectedIndex = index;

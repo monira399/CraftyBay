@@ -1,12 +1,17 @@
 import 'package:craftybay/app/app_colors.dart';
 import 'package:craftybay/features/cart/presentation/screens/cart_list_screen.dart';
 import 'package:craftybay/features/common/presentation/providers/main_nav_provider.dart';
+import 'package:craftybay/features/home/presentation/provider/home_slider_providers.dart';
 import 'package:craftybay/features/home/presentation/screens/home_screen.dart';
 import 'package:craftybay/features/wishList/presentation/screens/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../auth/presentation/providers/auth_controllers.dart';
+import '../../../auth/presentation/screens/sign_up_screen.dart';
+import '../../../category/presentation/providers/category_list_provider.dart';
 import '../../../category/presentation/screens/category_list_screen.dart';
+
 class MainNavHolderScreen extends StatefulWidget {
   const MainNavHolderScreen({super.key});
 
@@ -15,7 +20,6 @@ class MainNavHolderScreen extends StatefulWidget {
   @override
   State<MainNavHolderScreen> createState() => _MainNavHolderScreenState();
 }
-
 final List<Widget> _screens =[
   HomeScreen(),
   CategoryListScreen(),
@@ -25,6 +29,14 @@ final List<Widget> _screens =[
 ];
 
 class _MainNavHolderScreenState extends State<MainNavHolderScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CategoryListProvider>().fetchCategoryList();
+    context.read<HomeSliderProvider>().getHomeSlider();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainNavProvider>(
@@ -35,7 +47,16 @@ class _MainNavHolderScreenState extends State<MainNavHolderScreen> {
               unselectedItemColor: Colors.grey,
               selectedItemColor: AppColors.themeColor,
               currentIndex: mainNavProvider.selectedIndex,
-              onTap: mainNavProvider.changeItem,
+              onTap: (int index) async {
+                if(index == 2 || index ==3){
+                  //login required
+                  if(await AuthController.isAlreadyLoggedIn() == false) {
+                Navigator.pushNamed(context, SignUpScreen.name);
+                return;
+                }
+                  mainNavProvider.changeItem(index);
+              }
+              },
               showUnselectedLabels: true,
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

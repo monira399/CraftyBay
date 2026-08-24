@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class IncrementDecrementButton extends StatefulWidget {
-  const IncrementDecrementButton({super.key, required this.onChanged});
+  const IncrementDecrementButton({super.key, required this.onChanged,  this.maxValue = 100});
 
   final Function(int) onChanged;
+  final int maxValue ;
 
   @override
   State<IncrementDecrementButton> createState() => _IncrementDecrementButtonState();
@@ -32,9 +33,11 @@ class _IncrementDecrementButtonState extends State<IncrementDecrementButton> {
         ),
         Text('$_currentValue', style: TextTheme.of(context).titleMedium,),
         _buildGestureDetector(onTap: () {
+          if(_currentValue < widget.maxValue){
             _currentValue++;
             widget.onChanged(_currentValue);
             setState(() {});
+          }
         }, icon: Icons.add,
         ),
       ],

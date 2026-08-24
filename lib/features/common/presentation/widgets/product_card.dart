@@ -1,16 +1,17 @@
 import 'package:craftybay/features/common/presentation/widgets/rating_view.dart';
+import 'package:craftybay/features/product/data/models/product_model.dart';
 import 'package:craftybay/features/product/presentation/screens/products_details_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../app/app_colors.dart';
-import '../../../../app/asset_paths.dart';
 import '../../../../app/constants.dart';
 import 'favourite_button.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
-    super.key,
+    super.key, required this.productModel,
   });
+  
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class ProductCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, ProductsDetailsScreen.name);
+                Navigator.pushNamed(context, ProductsDetailsScreen.name, arguments: productModel.id);
               },
               child: Container(
                 width: 160,
@@ -40,7 +41,8 @@ class ProductCard extends StatelessWidget {
                   ),
                   color: AppColors.themeColor.withAlpha(30),
                   image: DecorationImage(
-                    image: AssetImage(AssetPaths.dummyImagePng), fit: BoxFit.cover,
+                    image: NetworkImage(productModel.photo,
+                    ), fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -49,14 +51,15 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text('New Year Shoes - Nike Shoes ARG52F',
+                  Text(
+                   productModel.title,
                     maxLines: 1, style: TextStyle(
                         overflow: TextOverflow.ellipsis
                     ),),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${Constants.takaSign}250', style: TextStyle(
+                      Text('${Constants.takaSign}${productModel.currentPrice}', style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.themeColor
                       ),),

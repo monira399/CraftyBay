@@ -1,4 +1,7 @@
 import 'package:craftybay/app/asset_paths.dart';
+import 'package:craftybay/features/category/presentation/providers/category_list_provider.dart';
+import 'package:craftybay/features/common/presentation/widgets/center_circular_progress.dart';
+import 'package:craftybay/features/home/presentation/provider/home_slider_providers.dart';
 import 'package:craftybay/features/home/presentation/widgets/home_carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
             spacing: 8,
             children: [
               ProductSearchField(),
-              HomeCarouselSlider(),
+              Consumer<HomeSliderProvider>(
+                builder: (context, homeSliderProvider, _) {
+                  if(homeSliderProvider.getHomeSliderInProgress){
+                    return SizedBox(
+                        height: 200,
+                        child: CenterCircularProgress());
+                  }
+                  return HomeCarouselSlider(sliders: homeSliderProvider.homeSliders,);
+                }
+              ),
               SectionHeader(
                 title: 'Categories',
                 onTapSeeAll: () {
@@ -58,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return ProductCard();
+                    // return ProductCard();
                   }),
             );
   }
@@ -66,15 +78,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCategoryList() {
     return SizedBox(
       height: 85,
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return CategoryCard();
-        },
-        separatorBuilder: (context, index) => SizedBox(width: 8),
+      child: Consumer<CategoryListProvider>(
+        builder: (context, categoryListProvider, _) {
+          if(categoryListProvider.initialLoading) {
+            return CenterCircularProgress();
+          }
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: categoryListProvider.categoryList.length > 10 
+                ? 10 
+                : categoryListProvider.categoryList.length,
+            itemBuilder: (context, index) {
+              return CategoryCard(categoryModel: categoryListProvider.categoryList[index],);
+            },
+            separatorBuilder: (context, index) => SizedBox(width: 8),
+          );
+        }
       ),
     );
   }

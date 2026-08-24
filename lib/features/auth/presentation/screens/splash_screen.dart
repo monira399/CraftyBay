@@ -1,5 +1,4 @@
-
-import 'package:craftybay/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:craftybay/features/auth/presentation/providers/auth_controllers.dart';
 import 'package:craftybay/features/common/presentation/screens/main_nav_holder_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 2));
+    await AuthController.getUserData();
 
     if (!mounted) return;
 
-    Navigator.pushNamedAndRemoveUntil(context, SignUpScreen.name, (predicate) => false);
+    Navigator.pushNamedAndRemoveUntil(context, MainNavHolderScreen.name, (predicate) => false);
   }
 
   @override
