@@ -1,5 +1,4 @@
 import 'package:craftybay/features/auth/presentation/providers/auth_controllers.dart';
-import 'package:craftybay/features/auth/presentation/screens/sign_In_screen.dart';
 import 'package:craftybay/features/cart/presentation/screens/increment_decrement_button.dart';
 import 'package:craftybay/features/common/presentation/providers/add_to_cart_provider.dart';
 import 'package:craftybay/features/common/presentation/widgets/center_circular_progress.dart';
@@ -55,7 +54,7 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
         child: Column(
           children: [
             Consumer<ProductDetailsProvider>(
-              builder: (context, _, _) {
+              builder: (context, provider, _) {
                 if (_productDetailsProvider.getProductDetailsInProgress) {
                   return CenterCircularProgress();
                 }

@@ -45,8 +45,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       AppLogo(width: 90,),
                       const SizedBox(height: 8),
 
-                      Text('Sign Up', style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),),
-                      Text('Login to your account with email and password', style: textTheme.bodyLarge,),
+                      Text('Sign In', style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),),
+                      Text('SignIn to your account with email and password', style: textTheme.bodyLarge,),
 
                       const SizedBox(height: 16),
 

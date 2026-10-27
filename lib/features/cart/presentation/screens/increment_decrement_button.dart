@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class IncrementDecrementButton extends StatefulWidget {
-  const IncrementDecrementButton({super.key, required this.onChanged,  this.maxValue = 100});
+  const IncrementDecrementButton({super.key, required this.onChanged,  this.maxValue = 100, this.initialValue = 1});
 
   final Function(int) onChanged;
   final int maxValue ;
+  final int initialValue;
 
   @override
   State<IncrementDecrementButton> createState() => _IncrementDecrementButtonState();
@@ -15,6 +16,11 @@ class IncrementDecrementButton extends StatefulWidget {
 class _IncrementDecrementButtonState extends State<IncrementDecrementButton> {
   int _currentValue = 1;
 
+  @override
+  void initState() {
+    super.initState();
+    _currentValue = widget.initialValue;
+  }
   @override
   Widget build(BuildContext context) {
     return Row(

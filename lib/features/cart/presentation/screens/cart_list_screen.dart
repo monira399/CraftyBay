@@ -1,10 +1,12 @@
 import 'package:craftybay/app/app_colors.dart';
+import 'package:craftybay/features/cart/presentation/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../app/constants.dart';
 import '../../../common/presentation/providers/main_nav_provider.dart';
 import '../../widgets/cart_item.dart';
+import 'checkout_screen.dart';
 
 class CartListScreen extends StatefulWidget {
   const CartListScreen({super.key});
@@ -14,9 +16,21 @@ class CartListScreen extends StatefulWidget {
 }
 
 class _CartListScreenState extends State<CartListScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(!mounted) return;
+      context.read<CartItemProvider>().getCartItems();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = TextTheme.of(context);
+    final provider = context.watch<CartItemProvider>();
     return PopScope(
       onPopInvokedWithResult: (_, __){
         context.read<MainNavProvider>().backToHome();
@@ -24,27 +38,50 @@ class _CartListScreenState extends State<CartListScreen> {
       canPop: false,
       child: Scaffold(
         appBar: AppBar(title: Text('Carts')),
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return CardItem();
-                  },
+        body: Consumer<CartItemProvider>(
+          builder: (context, provider, _) {
+            if(provider.cartItemInProgress) {
+              return Center(child: CircularProgressIndicator(),
+              );
+            }
+
+            if(provider.errorMessage != null){
+              return Center(child: Text(provider.errorMessage!),
+              );
+            }
+
+            if(provider.cartItems.isEmpty) {
+              return const Center(
+                child: Text('Your cart is empty'),
+              );
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListView.builder(
+                      itemCount: provider.cartItems.length,
+                      itemBuilder: (context, index) {
+                        return CardItem(cartItem: provider.cartItems[index],
+                          onQuantityChanged: (quantity) {
+                          provider.updateQuantity(index, quantity);
+                          },);
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            _buildTotalPriceAndCheckOutSection(textTheme),
-          ],
+                _buildTotalPriceAndCheckOutSection(textTheme, provider.totalPrice),
+              ],
+            );
+          }
         ),
       ),
     );
   }
 
-  Container _buildTotalPriceAndCheckOutSection(TextTheme textTheme) {
+  Container _buildTotalPriceAndCheckOutSection(TextTheme textTheme, num totalPrice) {
     return Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -63,7 +100,7 @@ class _CartListScreenState extends State<CartListScreen> {
                 children: [
                   Text('Total Price', style: textTheme.bodyLarge),
                   Text(
-                    '${Constants.takaSign}500',
+                    '${Constants.takaSign}$totalPrice',
                     style: textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: AppColors.themeColor,
@@ -73,7 +110,9 @@ class _CartListScreenState extends State<CartListScreen> {
               ),
               SizedBox(
                   width:120 ,
-                  child: FilledButton(onPressed: () {}, child: Text('CheckOut'))),
+                  child: FilledButton(onPressed: () {
+                    Navigator.pushNamed(context, CheckoutScreen.name);
+                  }, child: Text('CheckOut'))),
             ],
           ),
         );

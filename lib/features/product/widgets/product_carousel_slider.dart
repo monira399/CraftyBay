@@ -31,9 +31,9 @@ class _ProductCarouselSliderState extends State<ProductCarouselSlider> {
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  color: Colors.grey.withAlpha(50),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+                    color: Colors.grey.withAlpha(50),
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                       image: NetworkImage(image),

@@ -44,6 +44,8 @@ class ProductListByCategoryProvider extends ChangeNotifier {
         url:Urls.productByCategoryUrl(_pageSize, _currentPage, categoryId),
     );
 
+    print('PRODUCT DETAILS RESPONSE: ${response.responseData}');
+
     if (response.isSuccess) {
       _lastPageNo = response.responseData['data']['last_page'];
 

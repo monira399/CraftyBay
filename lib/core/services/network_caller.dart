@@ -72,11 +72,8 @@ class NetworkCaller{
 
 
       Response response = await post(uri,
-        headers: {
-          'Content-Type': 'application/json',
-
-        },
-        body: jsonEncode(body),
+          headers: headers,
+          body: jsonEncode(body)
       );
       _logResponse(url, response);
 
@@ -108,7 +105,7 @@ class NetworkCaller{
           isSuccess: false,
           responseCode: statusCode,
           responseData: decodedData,
-          errorMassage: decodedData['msgN'], // TODO: propose a solution to make this component independent
+          errorMassage: decodedData['msg'], // TODO: propose a solution to make this component independent
 
         );
       }

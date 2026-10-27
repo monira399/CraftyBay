@@ -16,20 +16,19 @@ class ProductDetailsModel {
     required this.colors,
     required this.sizes,
     required this.price,
-    required this.quantity
-
-});
+    required this.quantity,
+  });
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailsModel(
-        id: json['_id'],
-        title: json['title'],
-        description: json['description'],
-        photos: List<String>.from(json['photos']),
-        colors: List<String>.from(json['colors']),
-        sizes: List<String>.from(json['sizes']),
-        price: json['price'].toDoubble(),
-        quantity: json['quantity']
+      id: json['_id'],
+      title: json['title'],
+      description: json['description'],
+      photos: List<String>.from(json['photos'] ?? []),
+      colors: List<String>.from(json['colors'] ?? []),
+      sizes: List<String>.from(json['sizes'] ?? []),
+      price: (json['current_price'] as num).toDouble(),
+      quantity: json['quantity'] ?? 0,
     );
   }
 }

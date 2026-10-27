@@ -8,7 +8,8 @@ import 'package:craftybay/features/product/presentation/screens/products_details
 import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/screens/sign_In_screen.dart';
-import '../features/category/data/models/category_model.dart';
+import '../features/cart/presentation/screens/checkout_screen.dart';
+import '../features/cart/presentation/screens/order_success_screen.dart';
 
 class AppRoutes {
   static Route<dynamic> routes(RouteSettings settings) {
@@ -16,22 +17,36 @@ class AppRoutes {
 
     if(settings.name == SplashScreen.name) {
       widget = SplashScreen();
-    } else if(settings.name == SignUpScreen.name) {
+    }
+    else if(settings.name == SignUpScreen.name) {
       widget = SignUpScreen();
-    } else if(settings.name == SignInScreen.name) {
+    }
+    else if(settings.name == SignInScreen.name) {
       widget = SignInScreen();
-    } else if(settings.name == VerifyOTpScreen.name) {
+    }
+    else if(settings.name == VerifyOTpScreen.name) {
       final email = settings.arguments as String;
       widget = VerifyOTpScreen(email: email,);
-    }else if(settings.name == MainNavHolderScreen.name) {
+    }
+    else if(settings.name == MainNavHolderScreen.name) {
       widget = MainNavHolderScreen();
-    } else if(settings.name == ProductListByCategory.name) {
+    }
+    else if(settings.name == ProductListByCategory.name) {
       final categoryModel = settings.arguments as CategoryModel;
       widget = ProductListByCategory(categoryModel: categoryModel);
-    } else if(settings.name == ProductsDetailsScreen.name) {
+    }
+    else if(settings.name == ProductsDetailsScreen.name) {
       final productId = settings.arguments as String;
       widget = ProductsDetailsScreen(productId: productId);
-    } else {
+    }
+    else if(settings.name == CheckoutScreen.name) {
+      widget = CheckoutScreen();
+    }
+    else if (settings.name == OrderSuccessScreen.name) {
+      final orderData = settings.arguments as Map<String, dynamic>;
+      widget = OrderSuccessScreen(orderData: orderData);
+    }
+    else {
       widget = const Scaffold(
         body: Center(
           child: Text('Route not found'),

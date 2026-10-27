@@ -24,7 +24,6 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('Category ID: ${widget.categoryModel.id}');
       _productListByCategoryProvider.refreshProductList(
         widget.categoryModel.id,
       );

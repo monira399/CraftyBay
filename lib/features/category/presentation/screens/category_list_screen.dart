@@ -35,8 +35,6 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return PopScope(
       onPopInvokedWithResult: (_, __){
         context.read<MainNavProvider>().backToHome();

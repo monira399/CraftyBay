@@ -1,7 +1,6 @@
 import 'package:craftybay/app/set_up_network_caller.dart';
 import 'package:craftybay/core/services/network_caller.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../../../app/urls.dart';
 
 class AddToCartProvider extends ChangeNotifier {

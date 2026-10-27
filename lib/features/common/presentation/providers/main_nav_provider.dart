@@ -1,6 +1,4 @@
-import 'package:craftybay/app/app.dart';
-import 'package:craftybay/features/auth/presentation/providers/auth_controllers.dart';
-import 'package:craftybay/features/auth/presentation/screens/sign_In_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class MainNavProvider extends ChangeNotifier {

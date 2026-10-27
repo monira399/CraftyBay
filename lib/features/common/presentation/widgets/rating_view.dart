@@ -7,6 +7,7 @@ class RatingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(children: [Icon(Icons.star, color: Colors.amber, size: 20), Text('4.3')]);
+    return Wrap(
+        children: [Icon(Icons.star, color: Colors.amber, size: 20), Text('4.3')]);
   }
 }
