@@ -1,5 +1,6 @@
 import 'package:craftybay/app/app_colors.dart';
 import 'package:craftybay/features/auth/data/models/signinparams.dart';
+import 'package:craftybay/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:craftybay/features/auth/presentation/widgets/app_logo.dart';
 import 'package:craftybay/features/common/presentation/screens/main_nav_holder_screen.dart';
 import 'package:craftybay/features/common/presentation/widgets/center_circular_progress.dart';
@@ -124,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   }
   void _onTapSignUpButton (){
-    Navigator.pop(context);
+    Navigator.pushNamed(context, SignUpScreen.name);
 
   }
   void _onTapSignInButton (){

@@ -120,6 +120,74 @@ class NetworkCaller{
   }
 
 
+   Future<NetworkResponse> deleteRequest({
+     required String url,
+   }) async {
+     try {
+       Uri uri = Uri.parse(url);
+
+       _logRequest(url);
+
+       Response response = await delete(
+         uri,
+         headers: headers,
+       );
+
+       _logResponse(url, response);
+
+       final int statusCode = response.statusCode;
+
+       if (statusCode == 200 ||
+           statusCode == 201 ||
+           statusCode == 204) {
+         dynamic decodedData;
+
+         if (response.body.isNotEmpty) {
+           decodedData = jsonDecode(response.body);
+         }
+
+         return NetworkResponse(
+           isSuccess: true,
+           responseCode: statusCode,
+           responseData: decodedData,
+         );
+       } else if (statusCode == 401) {
+         onUnauthorize();
+
+         return NetworkResponse(
+           isSuccess: false,
+           responseCode: statusCode,
+           responseData: null,
+           errorMassage: 'Un-authorize',
+         );
+       } else {
+         dynamic decodedData;
+
+         if (response.body.isNotEmpty) {
+           decodedData = jsonDecode(response.body);
+         }
+
+         return NetworkResponse(
+           isSuccess: false,
+           responseCode: statusCode,
+           responseData: decodedData,
+           errorMassage: decodedData is Map
+               ? decodedData['msg']?.toString()
+               : 'Request failed',
+         );
+       }
+     } on Exception catch (e) {
+       return NetworkResponse(
+         isSuccess: false,
+         responseCode: -1,
+         responseData: null,
+         errorMassage: e.toString(),
+       );
+     }
+   }
+
+
+
    void _logRequest (String url, { Map<String, dynamic>? body}){
     _logger.i('URL => $url\n'
         'Request Body : $body');

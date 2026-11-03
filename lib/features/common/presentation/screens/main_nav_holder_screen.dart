@@ -24,7 +24,7 @@ final List<Widget> _screens =[
   HomeScreen(),
   CategoryListScreen(),
   CartListScreen(),
-  WishListScreen(),
+  WishlistScreen(),
 
 ];
 
@@ -48,14 +48,16 @@ class _MainNavHolderScreenState extends State<MainNavHolderScreen> {
               selectedItemColor: AppColors.themeColor,
               currentIndex: mainNavProvider.selectedIndex,
               onTap: (int index) async {
-                if(index == 2 || index ==3){
-                  //login required
-                  if(await AuthController.isAlreadyLoggedIn() == false) {
-                Navigator.pushNamed(context, SignUpScreen.name);
-                return;
+                // Cart and Wishlist require login
+                if (index == 2 || index == 3) {
+                  if (await AuthController.isAlreadyLoggedIn() == false) {
+                    Navigator.pushNamed(context, SignUpScreen.name);
+                    return;
+                  }
                 }
-                  mainNavProvider.changeItem(index);
-              }
+
+                // Change selected screen
+                mainNavProvider.changeItem(index);
               },
               showUnselectedLabels: true,
               items: [

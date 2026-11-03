@@ -1,3 +1,4 @@
+
 import 'package:craftybay/features/common/presentation/widgets/rating_view.dart';
 import 'package:craftybay/features/product/data/models/product_model.dart';
 import 'package:craftybay/features/product/presentation/screens/products_details_screen.dart';
@@ -8,64 +9,99 @@ import 'favourite_button.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
-    super.key, required this.productModel,
+    super.key,
+    required this.productModel,
+    this.isGrid = false,
+    required this.onFavouriteTap,
   });
-  
+
   final ProductModel productModel;
+  final bool isGrid;
+  final VoidCallback onFavouriteTap;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 160,
       child: Card(
-        elevation: 3,
+        elevation: 2,
         shadowColor: AppColors.themeColor.withAlpha(45),
         color: Colors.white,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)
+          borderRadius: BorderRadius.circular(10),
         ),
+        clipBehavior: Clip.antiAlias,
         child: Column(
-          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Product Image
             GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context, ProductsDetailsScreen.name, arguments: productModel.id);
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ProductsDetailsScreen.name,
+                  arguments: productModel.id,
+                );
               },
               child: Container(
-                width: 160,
-                height: 90,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    topLeft: Radius.circular(8),
-                  ),
-                  color: AppColors.themeColor.withAlpha(30),
-                  image: DecorationImage(
-                    image: NetworkImage(productModel.photo,
-                    ), fit: BoxFit.cover,
-                  ),
+                width: double.infinity,
+                height: isGrid ? 85 : 105,
+                color: AppColors.themeColor.withAlpha(30),
+                child: Image.network(
+                  productModel.photo,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        size: 35,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
+
+            // Product Information
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                   productModel.title,
-                    maxLines: 1, style: TextStyle(
-                        overflow: TextOverflow.ellipsis
-                    ),),
+                    productModel.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${Constants.takaSign}${productModel.currentPrice}', style: TextStyle(
+                      Text(
+                        '${Constants.takaSign}${productModel.currentPrice}',
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: AppColors.themeColor
-                      ),),
+                          color: AppColors.themeColor,
+                        ),
+                      ),
                       RatingView(),
-                      FavouriteButton(),
                     ],
+                  ),
+
+                  const SizedBox(height: 2),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: FavouriteButton(
+                      onTap: onFavouriteTap,
+                    ),
                   ),
                 ],
               ),
@@ -76,6 +112,3 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-
-
-

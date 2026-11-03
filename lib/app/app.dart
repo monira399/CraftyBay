@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import '../features/cart/presentation/provider/cart_provider.dart';
+import '../features/common/presentation/providers/add_to_cart_provider.dart';
+import '../features/product/providers/product_list_provider.dart';
+import '../features/wishList/presentation/providers/wishlist_provider.dart';
 import '../l10n/app_localizations.dart';
 import 'app_theme.dart';
 
@@ -22,13 +25,21 @@ class CraftyBayApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LanguageProvider()..loadInitialLanguage()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()..loadInitialThemeMode()),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider()..loadInitialLanguage(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider()..loadInitialThemeMode(),
+        ),
         ChangeNotifierProvider(create: (_) => MainNavProvider()),
         ChangeNotifierProvider(create: (_) => CategoryListProvider()),
         ChangeNotifierProvider(create: (_) => HomeSliderProvider()),
         ChangeNotifierProvider(create: (_) => CartItemProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => WishlistProvider()),
+        ChangeNotifierProvider(create: (_) => AddToCartProvider()),
+        ChangeNotifierProvider(create: (_) => ProductListProvider(),
+        ),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -40,7 +51,7 @@ class CraftyBayApp extends StatelessWidget {
                 initialRoute: SplashScreen.name,
                 onGenerateRoute: AppRoutes.routes,
                 theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme ,
+                darkTheme: AppTheme.darkTheme,
                 themeMode: themeProvider.currentThemeMode,
                 localizationsDelegates: [
                   AppLocalizations.delegate,
@@ -48,17 +59,12 @@ class CraftyBayApp extends StatelessWidget {
                   GlobalMaterialLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                supportedLocales: [
-                  Locale('en'),
-                  Locale('bn'),
-                ],
+                supportedLocales: [Locale('en'), Locale('bn')],
                 locale: languageProvider.currentLocale,
-
-
               );
-            }
+            },
           );
-        }
+        },
       ),
     );
   }

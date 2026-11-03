@@ -27,6 +27,8 @@ class SignInProvider extends ChangeNotifier {
       UserModel model =  UserModel.fromJson(response.responseData['data']['user']);
       String accessToken = response.responseData['data']['token'];
       await AuthController.saveUserData(accessToken, model);
+      debugPrint('Token saved: ${accessToken.isNotEmpty}');
+      debugPrint('Login saved successfully');
 
       isSuccess = true;
       _errorMessage = null;

@@ -5,6 +5,7 @@ import 'package:craftybay/features/category/data/models/category_model.dart';
 import 'package:craftybay/features/common/presentation/screens/main_nav_holder_screen.dart';
 import 'package:craftybay/features/product/presentation/screens/product_list_by_category.dart';
 import 'package:craftybay/features/product/presentation/screens/products_details_screen.dart';
+import 'package:craftybay/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/screens/sign_In_screen.dart';
@@ -45,6 +46,9 @@ class AppRoutes {
     else if (settings.name == OrderSuccessScreen.name) {
       final orderData = settings.arguments as Map<String, dynamic>;
       widget = OrderSuccessScreen(orderData: orderData);
+    }
+    else if(settings.name == ProfileScreen.name) {
+      widget = ProfileScreen();
     }
     else {
       widget = const Scaffold(

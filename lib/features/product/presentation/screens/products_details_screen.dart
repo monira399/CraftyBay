@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../../../../app/app_colors.dart';
 import '../../../../app/constants.dart';
 import '../../../auth/presentation/screens/sign_up_screen.dart';
+import '../../../wishList/presentation/providers/wishlist_provider.dart';
 import '../../widgets/size_picker.dart';
 
 class ProductsDetailsScreen extends StatefulWidget {
@@ -28,10 +29,9 @@ class ProductsDetailsScreen extends StatefulWidget {
 }
 
 class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
-  final ProductDetailsProvider _productDetailsProvider =
-      ProductDetailsProvider();
-
+  final ProductDetailsProvider _productDetailsProvider = ProductDetailsProvider();
   final AddToCartProvider _addToCartProvider = AddToCartProvider();
+  final WishlistProvider _wishlistProvider = WishlistProvider();
 
   @override
   void initState() {
@@ -50,6 +50,8 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
         providers: [
           ChangeNotifierProvider(create: (_) => _productDetailsProvider),
           ChangeNotifierProvider(create: (_) => _addToCartProvider),
+          ChangeNotifierProvider(
+            create: (_) => _wishlistProvider,),
         ],
         child: Column(
           children: [
@@ -100,7 +102,9 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
                                     onPressed: () {},
                                     child: Text('Reviews'),
                                   ),
-                                  FavouriteButton(),
+                                  FavouriteButton(
+                                    onTap: _onTapFavouriteButton,
+                                  ),
                                 ],
                               ),
                               if (_productDetailsProvider
@@ -217,6 +221,31 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
      }
     } else {
       Navigator.pushNamed(context, SignUpScreen.name);
+    }
+  }
+
+  Future<void> _onTapFavouriteButton() async {
+    final isLoggedIn = await AuthController.isAlreadyLoggedIn();
+
+    if (!mounted) return;
+
+    if (!isLoggedIn) {
+      Navigator.pushNamed(context, SignUpScreen.name);
+      return;
+    }
+
+    final isSuccess =
+    await _wishlistProvider.addToWishlist(widget.productId);
+
+    if (!mounted) return;
+
+    if (isSuccess) {
+      showSnackBarMessage(context, 'Added to wishlist!');
+    } else {
+      showSnackBarMessage(
+        context,
+        _wishlistProvider.errorMessage ?? 'Failed to add to wishlist',
+      );
     }
   }
 
