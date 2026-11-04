@@ -23,4 +23,12 @@ class OrderService {
 
     return response;
   }
+
+  static Future<NetworkResponse> getOrderHistory() async {
+    final response = await getNetworkCaller().getRequest(
+      url: Urls.orderUrl,
+    );
+
+    return response;
+  }
 }

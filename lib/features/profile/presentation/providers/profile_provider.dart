@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
+import '../../../auth/data/models/user_model.dart';
 import '../services/profile_service.dart';
 
 class ProfileProvider extends ChangeNotifier {
-
-  Map<String, dynamic>? _profileData;
+  UserModel? _profileData;
 
   bool _isLoading = false;
   bool _isUpdating = false;
@@ -12,10 +12,9 @@ class ProfileProvider extends ChangeNotifier {
   String? _errorMessage;
   String? _successMessage;
 
-
   // Getters
 
-  Map<String, dynamic>? get profileData => _profileData;
+  UserModel? get profileData => _profileData;
 
   bool get isLoading => _isLoading;
 
@@ -24,7 +23,6 @@ class ProfileProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   String? get successMessage => _successMessage;
-
 
   // Get Profile
 
@@ -37,7 +35,7 @@ class ProfileProvider extends ChangeNotifier {
       final response = await ProfileService.getProfile();
 
       if (response.isSuccess) {
-        _profileData = Map<String, dynamic>.from(
+        _profileData = UserModel.fromJson(
           response.responseData['data'],
         );
 
@@ -55,7 +53,6 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-
   // Update Profile
 
   Future<bool> updateProfile({
@@ -72,7 +69,7 @@ class ProfileProvider extends ChangeNotifier {
       );
 
       if (response.isSuccess) {
-        _profileData = Map<String, dynamic>.from(
+        _profileData = UserModel.fromJson(
           response.responseData['data'],
         );
 

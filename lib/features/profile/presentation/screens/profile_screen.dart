@@ -2,17 +2,33 @@
 import 'package:craftybay/features/profile/presentation/screens/personal_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:craftybay/app/app_colors.dart';
-
+import 'package:provider/provider.dart';
+import '../../../order/presentation/screens/order_history_screen.dart';
+import '../providers/profile_provider.dart';
 import '../widgets/logout_dialog.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/profile_menu_item.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   static const String name = '/profile';
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileProvider>().getProfile();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +49,21 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            ProfileHeader(
-              name: 'User Name',
-              email: 'user@email.com',
-              onEditTap: () {
-                Navigator.pushNamed(
-                  context,
-                  PersonalInfoScreen.name,
+            Consumer<ProfileProvider>(
+              builder: (context, provider, child) {
+                final data = provider.profileData;
+
+                return ProfileHeader(
+                  name: data == null
+                      ? 'Loading...'
+                      : '${data.firstName} ${data.lastName}',
+                  email: data?.email ?? '',
+                  onEditTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      PersonalInfoScreen.name,
+                    );
+                  },
                 );
               },
             ),
@@ -75,7 +99,14 @@ class ProfileScreen extends StatelessWidget {
                 ProfileMenuItem(
                   icon: Icons.shopping_bag_outlined,
                   title: 'My Orders',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MyOrdersScreen(),
+                      ),
+                    );
+                  },
                 ),
                 ProfileMenuItem(
                   icon: Icons.favorite_border,
@@ -128,7 +159,4 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-
-
-
 }
