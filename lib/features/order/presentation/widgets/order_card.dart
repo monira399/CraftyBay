@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/order_model.dart';
+import '../screens/order_tracking_screen.dart';
 import 'order_helper.dart';
 import 'order_info_item.dart';
 
@@ -143,8 +144,13 @@ class OrderCard extends StatelessWidget {
 
                 OutlinedButton(
                   onPressed: () {
-                    // Order details navigation will be added later.
+                    Navigator.pushNamed(
+                      context,
+                      OrderTrackingScreen.name,
+                      arguments: order,
+                    );
                   },
+                  
                   style: OutlinedButton.styleFrom(
                     foregroundColor: primaryColor,
                     side: BorderSide(color: primaryColor),

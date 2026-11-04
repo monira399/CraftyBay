@@ -1,4 +1,5 @@
 import '../../../auth/data/models/user_model.dart';
+import 'order_item_model.dart';
 import 'shipping_address_model.dart';
 
 class OrderModel {
@@ -12,9 +13,11 @@ class OrderModel {
   final String paymentStatus;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final List<OrderItemModel> items;
   final int totalItems;
 
   OrderModel({
+    required this.items,
     required this.id,
     required this.transactionId,
     required this.user,
@@ -51,6 +54,11 @@ class OrderModel {
           ? DateTime.tryParse(json['updatedAt'])
           : null,
       totalItems: json['total_items'] ?? 0,
+      items: (json['items'] as List? ?? [])
+          .map((item) => OrderItemModel.fromJson(
+        Map<String, dynamic>.from(item),
+      ))
+          .toList(),
     );
   }
 
@@ -67,6 +75,18 @@ class OrderModel {
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
       'total_items': totalItems,
+      'items': items.map((item) => {
+        '_id': item.id,
+        'product': {
+          '_id': item.productId,
+          'title': item.title,
+          'photos': [item.photos],
+        },
+        'price': item.price,
+        'quantity': item.quantity,
+        'size': item.size,
+        'color': item.color,
+      }).toList(),
     };
   }
 }

@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import '../features/auth/presentation/screens/sign_In_screen.dart';
 import '../features/cart/presentation/screens/checkout_screen.dart';
 import '../features/cart/presentation/screens/order_success_screen.dart';
+import '../features/order/data/models/order_model.dart';
+import '../features/order/presentation/screens/order_tracking_screen.dart';
 import '../features/profile/presentation/screens/personal_information_screen.dart';
 
 class AppRoutes {
@@ -53,6 +55,13 @@ class AppRoutes {
     }
     else if (settings.name == PersonalInfoScreen.name) {
       widget = const PersonalInfoScreen();
+    }
+    else if (settings.name == OrderTrackingScreen.name) {
+      final order = settings.arguments as OrderModel;
+
+      widget = OrderTrackingScreen(
+        order: order,
+      );
     }
     else {
       widget = const Scaffold(
