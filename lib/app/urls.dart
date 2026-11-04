@@ -26,4 +26,6 @@ class Urls {
   static const String addToCartUrl = '$_baseUrl/cart' ;
   static const String orderUrl = '$_baseUrl/order' ;
   static const String wishListUrl = '$_baseUrl/wishlist' ;
+  static const String getProfileUrl = '$_baseUrl/auth/profile' ;
+  static const String updateProfileUrl = '$_baseUrl/auth/profile' ;
 }

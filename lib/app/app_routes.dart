@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import '../features/auth/presentation/screens/sign_In_screen.dart';
 import '../features/cart/presentation/screens/checkout_screen.dart';
 import '../features/cart/presentation/screens/order_success_screen.dart';
+import '../features/profile/presentation/screens/personal_information_screen.dart';
 
 class AppRoutes {
   static Route<dynamic> routes(RouteSettings settings) {
@@ -49,6 +50,9 @@ class AppRoutes {
     }
     else if(settings.name == ProfileScreen.name) {
       widget = ProfileScreen();
+    }
+    else if (settings.name == PersonalInfoScreen.name) {
+      widget = const PersonalInfoScreen();
     }
     else {
       widget = const Scaffold(

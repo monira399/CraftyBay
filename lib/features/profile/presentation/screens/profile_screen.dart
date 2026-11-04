@@ -1,4 +1,5 @@
 
+import 'package:craftybay/features/profile/presentation/screens/personal_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:craftybay/app/app_colors.dart';
 
@@ -36,7 +37,10 @@ class ProfileScreen extends StatelessWidget {
               name: 'User Name',
               email: 'user@email.com',
               onEditTap: () {
-                // Edit Profile Screen navigation
+                Navigator.pushNamed(
+                  context,
+                  PersonalInfoScreen.name,
+                );
               },
             ),
 
@@ -48,7 +52,12 @@ class ProfileScreen extends StatelessWidget {
                 ProfileMenuItem(
                   icon: Icons.person_outline,
                   title: 'Personal Information',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      PersonalInfoScreen.name,
+                    );
+                  },
                 ),
                 ProfileMenuItem(
                   icon: Icons.lock_outline,

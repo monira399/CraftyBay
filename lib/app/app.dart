@@ -6,6 +6,7 @@ import 'package:craftybay/features/category/presentation/providers/category_list
 import 'package:craftybay/features/common/presentation/providers/main_nav_provider.dart';
 import 'package:craftybay/features/home/presentation/provider/home_slider_providers.dart';
 import 'package:craftybay/features/order/presentation/provider/order_provider.dart';
+import 'package:craftybay/features/profile/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -38,8 +39,8 @@ class CraftyBayApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()),
         ChangeNotifierProvider(create: (_) => AddToCartProvider()),
-        ChangeNotifierProvider(create: (_) => ProductListProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => ProductListProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {

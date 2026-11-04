@@ -13,8 +13,6 @@ import '../widgets/product_search_field.dart';
 import '../widgets/product_section.dart';
 import '../widgets/section_haeder.dart';
 
-//// Token
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YWUyZDNkMTEwM2Q0NzNiNWIyODI0ZmQiLCJmaXJzdF9uYW1lIjoibW9uaSIsImxhc3RfbmFtZSI6InJhIiwiZW1haWwiOiJtb25pMTJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lIjoiMDE0NTk3NjI1NSIsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwiYXZhdGFyX3VybCI6bnVsbCwiY2l0eSI6ImRoYWthIiwicm9sZSI6MCwiaWF0IjoxNzkzNTI2OTA1LCJleHAiOjE3OTQxMzE3MDV9.OXPtnk10-tguCOowQMrxaK-BSv3swKBmAszCAMjmB-g
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
